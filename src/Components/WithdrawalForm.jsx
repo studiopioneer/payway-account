@@ -10,6 +10,8 @@ import {useDispatch} from 'react-redux'; // Импортируем useDispatch
 import {showToast} from '../ToastSlice'; // Импортируем action
 
 const CRYPTO_COMMISSION_RATE = 11; // Комиссия за криптовалюту в процентах
+const SWIFT_COMMISSION_RATE = 12; // Комиссия за Swift в процентах
+const CARDS_COMMISSION_RATE = 15; // Комиссия за Visa/MasterCard/МИР в процентах
 
 const WithdrawalForm = () => {
     const [amount, setAmount] = useState(0);
@@ -23,13 +25,13 @@ const WithdrawalForm = () => {
     const paymentOptions = [
         {
             value: 'swift',
-            label: 'Swift',
+            label: `Swift - ${SWIFT_COMMISSION_RATE}%`,
             iconClass: 'pi pi-globe',
             description: 'Выплата на ваш банковский счёт в долларах или евро. Переводы не осуществляются в страны, попавшие под санкции, включая Россию. Однако вы можете заказать перевод в другие страны, такие как государства ЕС, Казахстан, Грузия и т.д. Мы не взимаем комиссию за перевод, но её может удержать ваш банк или банк-корреспондент, так что уточните этот момент у своего финансового учреждения.',
         },
         {
             value: 'cards',
-            label: 'Visa, MasterCard, МИР',
+            label: `Visa, MasterCard, МИР - ${CARDS_COMMISSION_RATE}%`,
             iconClass: 'pi pi-credit-card',
             description: 'Выплаты на карты Visa, Mastercard, Мир любых стран, в России в рублях на любой банк без ограничений. Для вывода в фиатной валюте может потребоваться верификация личности получателя по документам.',
         },
@@ -40,6 +42,22 @@ const WithdrawalForm = () => {
             description: 'Выплата в стейблкоине USDT TRC20. О том как зарегистрироваться на криптобирже и начать получать платежи, читайте в нашем блоге. Минимальная сумма к выводу - 20 Евро или 30 долларов США Смотрите наш гайд',
         },
     ];
+
+    // Расчёт комиссии для Swift
+    const swiftCommission = (amount && paymentType === 'swift')
+        ? parseFloat((amount * SWIFT_COMMISSION_RATE / 100).toFixed(2))
+        : 0;
+    const amountAfterSwiftCommission = (amount && paymentType === 'swift')
+        ? parseFloat((amount - swiftCommission).toFixed(2))
+        : 0;
+
+    // Расчёт комиссии для Visa/MasterCard/МИР
+    const cardsCommission = (amount && paymentType === 'cards')
+        ? parseFloat((amount * CARDS_COMMISSION_RATE / 100).toFixed(2))
+        : 0;
+    const amountAfterCardsCommission = (amount && paymentType === 'cards')
+        ? parseFloat((amount - cardsCommission).toFixed(2))
+        : 0;
 
     // Расчёт комиссии для криптовалюты
     const cryptoCommission = (amount && paymentType === 'cryptocurrency')
@@ -200,6 +218,38 @@ const WithdrawalForm = () => {
                             </div>
                         ))}
                     </div>
+                    {paymentType === 'swift' && amount > 0 && (
+                        <div className="surface-card border-1 surface-border p-3 mt-3 border-round">
+                            <div className="flex justify-content-between mb-2">
+                                <span className="text-600">Сумма к выводу:</span>
+                                <span className="font-medium">{amount}</span>
+                            </div>
+                            <div className="flex justify-content-between mb-2">
+                                <span className="text-600">Комиссия ({SWIFT_COMMISSION_RATE}%):</span>
+                                <span className="font-medium text-red-500">- {swiftCommission}</span>
+                            </div>
+                            <div className="flex justify-content-between border-top-1 surface-border pt-2">
+                                <span className="text-900 font-bold">Вы получите:</span>
+                                <span className="text-900 font-bold">{amountAfterSwiftCommission}</span>
+                            </div>
+                        </div>
+                    )}
+                    {paymentType === 'cards' && amount > 0 && (
+                        <div className="surface-card border-1 surface-border p-3 mt-3 border-round">
+                            <div className="flex justify-content-between mb-2">
+                                <span className="text-600">Сумма к выводу:</span>
+                                <span className="font-medium">{amount}</span>
+                            </div>
+                            <div className="flex justify-content-between mb-2">
+                                <span className="text-600">Комиссия ({CARDS_COMMISSION_RATE}%):</span>
+                                <span className="font-medium text-red-500">- {cardsCommission}</span>
+                            </div>
+                            <div className="flex justify-content-between border-top-1 surface-border pt-2">
+                                <span className="text-900 font-bold">Вы получите:</span>
+                                <span className="text-900 font-bold">{amountAfterCardsCommission}</span>
+                            </div>
+                        </div>
+                    )}
                     {paymentType === 'cryptocurrency' && amount > 0 && (
                         <div className="surface-card border-1 surface-border p-3 mt-3 border-round">
                             <div className="flex justify-content-between mb-2">
