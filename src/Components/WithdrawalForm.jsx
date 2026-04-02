@@ -9,6 +9,8 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; // Импортируем useDispatch
 import {showToast} from '../ToastSlice'; // Импортируем action
 
+const CRYPTO_COMMISSION_RATE = 11; // Комиссия за криптовалюту в процентах
+
 const WithdrawalForm = () => {
     const [amount, setAmount] = useState(0);
     const [details, setDetails] = useState('');
@@ -33,15 +35,22 @@ const WithdrawalForm = () => {
         },
         {
             value: 'cryptocurrency',
-            label: 'Криптовалюта',
+            label: `Криптовалюта (USDT TRC 20) - ${CRYPTO_COMMISSION_RATE}%`,
             iconClass: 'pi pi-wallet',
             description: 'Выплата в стейблкоине USDT TRC20. О том как зарегистрироваться на криптобирже и начать получать платежи, читайте в нашем блоге. Минимальная сумма к выводу - 20 Евро или 30 долларов США Смотрите наш гайд',
         },
     ];
 
+    // Расчёт комиссии для криптовалюты
+    const cryptoCommission = (amount && paymentType === 'cryptocurrency')
+        ? parseFloat((amount * CRYPTO_COMMISSION_RATE / 100).toFixed(2))
+        : 0;
+    const amountAfterCommission = (amount && paymentType === 'cryptocurrency')
+        ? parseFloat((amount - cryptoCommission).toFixed(2))
+        : 0;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         // Данные для отправки на сервер
         const formData = {
             amount,
@@ -58,13 +67,11 @@ const WithdrawalForm = () => {
                     'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`, // Если требуется авторизация
                 },
             });
-
             // Очистка формы после успешной отправки
             setAmount(0);
             setDetails('');
             setComments('');
             setPaymentType('swift');
-
             // Отправляем действие (action) для показа сообщения
             dispatch(showToast({
                 message: 'Заявка на вывод средств успешно создана!',
@@ -76,9 +83,7 @@ const WithdrawalForm = () => {
         } catch (error) {
             // Обработка ошибок
             console.error('Ошибка при отправке формы:', error);
-
             if (error.response) {
-                // Ошибка от сервера
                 toast.current.show({
                     severity: 'error',
                     summary: 'Ошибка',
@@ -86,7 +91,6 @@ const WithdrawalForm = () => {
                     life: 3000,
                 });
             } else {
-                // Ошибка сети или другая ошибка
                 toast.current.show({
                     severity: 'error',
                     summary: 'Ошибка',
@@ -100,7 +104,6 @@ const WithdrawalForm = () => {
     return (
         <div>
             <Toast ref={toast}/>
-
             <form onSubmit={handleSubmit} className="payway-draw">
                 <div className="pt-6 w-full">
                     <div className="grid formgrid p-fluid mb-4">
@@ -147,12 +150,10 @@ const WithdrawalForm = () => {
                             </div>
                         </div>
                     </div>
-
                     <div>
                         <div className="text-900 text-xl mb-3 text-left font-medium">
                             Выберите способ оплаты
                         </div>
-
                         {paymentOptions.map((option) => (
                             <div
                                 key={option.value}
@@ -199,8 +200,23 @@ const WithdrawalForm = () => {
                             </div>
                         ))}
                     </div>
+                    {paymentType === 'cryptocurrency' && amount > 0 && (
+                        <div className="surface-card border-1 surface-border p-3 mt-3 border-round">
+                            <div className="flex justify-content-between mb-2">
+                                <span className="text-600">Сумма к выводу:</span>
+                                <span className="font-medium">{amount}</span>
+                            </div>
+                            <div className="flex justify-content-between mb-2">
+                                <span className="text-600">Комиссия ({CRYPTO_COMMISSION_RATE}%):</span>
+                                <span className="font-medium text-red-500">- {cryptoCommission}</span>
+                            </div>
+                            <div className="flex justify-content-between border-top-1 surface-border pt-2">
+                                <span className="text-900 font-bold">Вы получите:</span>
+                                <span className="text-900 font-bold">{amountAfterCommission}</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
-
                 <Button
                     type="submit"
                     label="Создать заявку"
