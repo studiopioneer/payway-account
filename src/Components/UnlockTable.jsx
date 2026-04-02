@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchData, deleteData, updateData} from '../dataSlice';
+import {fetchData, deleteData, updateData} from '../DataSlice';
 import {GenericDataTable} from './GenericDataTable';
 import {StatusCell} from './StatusCell';
 import {AmountAndPaymentTypeCell} from './AmountAndPaymentTypeCell';
@@ -9,16 +9,16 @@ import {InputNumber} from 'primereact/inputnumber';
 import {Dropdown} from 'primereact/dropdown';
 
 const statuses = [
-    {label: 'Отклонен', value: 'rejected', severity: 'danger'},
-    {label: 'На проверке', value: 'review', severity: 'warning'},
-    {label: 'Подтвержден', value: 'approved', severity: 'info'},
-    {label: 'Выплачено', value: 'paid', severity: 'success'},
+    {label: 'ÐÑÐºÐ»Ð¾Ð½ÐµÐ½', value: 'rejected', severity: 'danger'},
+    {label: 'ÐÐ° Ð¿ÑÐ¾Ð²ÐµÑÐºÐµ', value: 'review', severity: 'warning'},
+    {label: 'ÐÐ¾Ð´ÑÐ²ÐµÑÐ¶Ð´ÐµÐ½', value: 'approved', severity: 'info'},
+    {label: 'ÐÑÐ¿Ð»Ð°ÑÐµÐ½Ð¾', value: 'paid', severity: 'success'},
 ];
 
 const paymentTypes = [
     {label: 'SWIFT', value: 'swift'},
-    {label: 'Карты', value: 'cards'},
-    {label: 'Криптовалюта', value: 'cryptocurrency'},
+    {label: 'ÐÐ°ÑÑÑ', value: 'cards'},
+    {label: 'ÐÑÐ¸Ð¿ÑÐ¾Ð²Ð°Ð»ÑÑÐ°', value: 'cryptocurrency'},
 ];
 
 const icons = {
@@ -62,10 +62,10 @@ export const UnlockTable = () => {
     };
 
     const columns = [
-        {field: 'time', header: 'Дата/время', sortable: true, style: {width: '13rem'}},
+        {field: 'time', header: 'ÐÐ°ÑÐ°/Ð²ÑÐµÐ¼Ñ', sortable: true, style: {width: '13rem'}},
         {
             field: 'amount',
-            header: 'Сумма',
+            header: 'Ð¡ÑÐ¼Ð¼Ð°',
             body: (rowData) => {
                 return (
                     <div className="flex align-items-center gap-2">
@@ -77,7 +77,7 @@ export const UnlockTable = () => {
         },
         {
             field: 'status',
-            header: 'Статус',
+            header: 'Ð¡ÑÐ°ÑÑÑ',
             body: (rowData) => <StatusCell rowData={rowData} statuses={statuses}/>,
             sortable: true,
             style: {width: '8rem'}
