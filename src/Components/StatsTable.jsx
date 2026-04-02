@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchData, deleteData, updateData} from '../dataSlice';
+import {fetchData, deleteData, updateData} from '../DataSlice';
 import {GenericDataTable} from './GenericDataTable';
 
 export const WithdrawalTable = () => {
@@ -51,7 +51,7 @@ export const WithdrawalTable = () => {
     const columns = [
         {
             field: 'period',
-            header: 'Период',
+            header: 'ÐÐµÑÐ¸Ð¾Ð´',
             sortable: true,
             style: {minWidth: '15rem'},
             body: (rowData) =>
@@ -59,14 +59,14 @@ export const WithdrawalTable = () => {
 
         },
 
-        {field: 'project_url', header: 'Проект', sortable: false, style: {minWidth: '20rem'}},
-        {field: 'estimated_earnings_usd', header: 'Заработано ($)', sortable: true, style: {minWidth: '11rem'}},
-        {field: 'page_views', header: 'Просмотры страниц', sortable: true, style: {minWidth: '13rem'}},
-        {field: 'page_rpm_usd', header: 'RPM страницы ($)', sortable: true, style: {minWidth: '13rem'}},
-        {field: 'impressions', header: 'Показы', sortable: true, style: {minWidth: '10rem'}},
-        {field: 'impression_rpm_usd', header: 'RPM показов ($)', sortable: true, style: {minWidth: '13rem'}},
-        {field: 'active_view_viewable', header: 'Активные просмотры (%)', sortable: true, style: {minWidth: '15rem'}},
-        {field: 'clicks', header: 'Клики', sortable: true, style: {minWidth: '6rem'}},
+        {field: 'project_url', header: 'ÐÑÐ¾ÐµÐºÑ', sortable: false, style: {minWidth: '20rem'}},
+        {field: 'estimated_earnings_usd', header: 'ÐÐ°ÑÐ°Ð±Ð¾ÑÐ°Ð½Ð¾ ($)', sortable: true, style: {minWidth: '11rem'}},
+        {field: 'page_views', header: 'ÐÑÐ¾ÑÐ¼Ð¾ÑÑÑ ÑÑÑÐ°Ð½Ð¸Ñ', sortable: true, style: {minWidth: '13rem'}},
+        {field: 'page_rpm_usd', header: 'RPM ÑÑÑÐ°Ð½Ð¸ÑÑ ($)', sortable: true, style: {minWidth: '13rem'}},
+        {field: 'impressions', header: 'ÐÐ¾ÐºÐ°Ð·Ñ', sortable: true, style: {minWidth: '10rem'}},
+        {field: 'impression_rpm_usd', header: 'RPM Ð¿Ð¾ÐºÐ°Ð·Ð¾Ð² ($)', sortable: true, style: {minWidth: '13rem'}},
+        {field: 'active_view_viewable', header: 'ÐÐºÑÐ¸Ð²Ð½ÑÐµ Ð¿ÑÐ¾ÑÐ¼Ð¾ÑÑÑ (%)', sortable: true, style: {minWidth: '15rem'}},
+        {field: 'clicks', header: 'ÐÐ»Ð¸ÐºÐ¸', sortable: true, style: {minWidth: '6rem'}},
     ];
 
     return (
