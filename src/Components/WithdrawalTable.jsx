@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchData, deleteData, updateData} from '../DataSlice';
+import {fetchData, updateData} from '../DataSlice';
 import {GenericDataTable} from './GenericDataTable';
 import {StatusCell} from './StatusCell';
 import {AmountAndPaymentTypeCell} from './AmountAndPaymentTypeCell';
@@ -9,16 +9,16 @@ import {InputNumber} from 'primereact/inputnumber';
 import {Dropdown} from 'primereact/dropdown';
 
 const statuses = [
-    {label: 'ÐÑÐºÐ»Ð¾Ð½ÐµÐ½', value: 'rejected', severity: 'danger'},
-    {label: 'ÐÐ° Ð¿ÑÐ¾Ð²ÐµÑÐºÐµ', value: 'review', severity: 'warning'},
-    {label: 'ÐÐ¾Ð´ÑÐ²ÐµÑÐ¶Ð´ÐµÐ½', value: 'approved', severity: 'info'},
-    {label: 'ÐÑÐ¿Ð»Ð°ÑÐµÐ½Ð¾', value: 'paid', severity: 'success'},
+    {label: 'ÃÂÃÂÃÂºÃÂ»ÃÂ¾ÃÂ½ÃÂµÃÂ½', value: 'rejected', severity: 'danger'},
+    {label: 'ÃÂÃÂ° ÃÂ¿ÃÂÃÂ¾ÃÂ²ÃÂµÃÂÃÂºÃÂµ', value: 'review', severity: 'warning'},
+    {label: 'ÃÂÃÂ¾ÃÂ´ÃÂÃÂ²ÃÂµÃÂÃÂ¶ÃÂ´ÃÂµÃÂ½', value: 'approved', severity: 'info'},
+    {label: 'ÃÂÃÂÃÂ¿ÃÂ»ÃÂ°ÃÂÃÂµÃÂ½ÃÂ¾', value: 'paid', severity: 'success'},
 ];
 
 const paymentTypes = [
     {label: 'SWIFT', value: 'swift'},
-    {label: 'ÐÐ°ÑÑÑ', value: 'cards'},
-    {label: 'ÐÑÐ¸Ð¿ÑÐ¾Ð²Ð°Ð»ÑÑÐ°', value: 'cryptocurrency'},
+    {label: 'ÃÂÃÂ°ÃÂÃÂÃÂ', value: 'cards'},
+    {label: 'ÃÂÃÂÃÂ¸ÃÂ¿ÃÂÃÂ¾ÃÂ²ÃÂ°ÃÂ»ÃÂÃÂÃÂ°', value: 'cryptocurrency'},
 ];
 
 const icons = {
@@ -62,10 +62,10 @@ export const WithdrawalTable = () => {
     };
 
     const columns = [
-        {field: 'time', header: 'ÐÐ°ÑÐ°/Ð²ÑÐµÐ¼Ñ', sortable: true},
+        {field: 'time', header: 'ÃÂÃÂ°ÃÂÃÂ°/ÃÂ²ÃÂÃÂµÃÂ¼ÃÂ', sortable: true},
         {
             field: 'amount',
-            header: 'Ð¡ÑÐ¼Ð¼Ð°',
+            header: 'ÃÂ¡ÃÂÃÂ¼ÃÂ¼ÃÂ°',
             body: (rowData) => <AmountAndPaymentTypeCell rowData={rowData} icons={icons}/>,
             editor: (options) => (
                 <div className="flex gap-2">
@@ -86,7 +86,7 @@ export const WithdrawalTable = () => {
                         }
                         optionLabel="label"
                         optionValue="value"
-                        placeholder="ÐÑÐ±ÐµÑÐ¸ÑÐµ ÑÐ¿Ð¾ÑÐ¾Ð± Ð¾Ð¿Ð»Ð°ÑÑ"
+                        placeholder="ÃÂÃÂÃÂ±ÃÂµÃÂÃÂ¸ÃÂÃÂµ ÃÂÃÂ¿ÃÂ¾ÃÂÃÂ¾ÃÂ± ÃÂ¾ÃÂ¿ÃÂ»ÃÂ°ÃÂÃÂ"
                     />
                 </div>
             ),
@@ -94,13 +94,13 @@ export const WithdrawalTable = () => {
         },
         {
             field: 'comments',
-            header: 'ÐÑÐ¸Ð¼ÐµÑÐ°Ð½Ð¸Ðµ',
+            header: 'ÃÂÃÂÃÂ¸ÃÂ¼ÃÂµÃÂÃÂ°ÃÂ½ÃÂ¸ÃÂµ',
             body: (rowData) => <CommentsCell rowData={rowData}/>,
             style: {width: '25rem'}
         },
         {
             field: 'status',
-            header: 'Ð¡ÑÐ°ÑÑÑ',
+            header: 'ÃÂ¡ÃÂÃÂ°ÃÂÃÂÃÂ',
             body: (rowData) => <StatusCell rowData={rowData} statuses={statuses}/>,
             sortable: true
         },
@@ -115,7 +115,6 @@ export const WithdrawalTable = () => {
             onPage={handlePage}
             onSort={handleSort}
             onRowEditComplete={onRowEditComplete}
-            onDelete={handleDelete}
         />
     );
 };
