@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchData, updateData} from '../dataSlice';
+import {fetchData, updateData} from '../DataSlice';
 import {GenericDataTable} from './GenericDataTable';
 import {StatusCell} from './StatusCell';
 import {AmountAndPaymentTypeCell} from './AmountAndPaymentTypeCell';
