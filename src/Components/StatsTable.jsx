@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchData, deleteData, updateData} from '../dataSlice';
+import {fetchData, deleteData, updateData} from '../DataSlice';
 import {GenericDataTable} from './GenericDataTable';
 
 export const WithdrawalTable = () => {
