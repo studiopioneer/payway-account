@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchData, updateData} from '../DataSlice';
+import {fetchData, updateData} from '../dataSlice';
 import {GenericDataTable} from './GenericDataTable';
 import {StatusCell} from './StatusCell';
 import {AmountAndPaymentTypeCell} from './AmountAndPaymentTypeCell';
@@ -9,16 +9,16 @@ import {InputNumber} from 'primereact/inputnumber';
 import {Dropdown} from 'primereact/dropdown';
 
 const statuses = [
-    {label: 'ÃÂÃÂÃÂºÃÂ»ÃÂ¾ÃÂ½ÃÂµÃÂ½', value: 'rejected', severity: 'danger'},
-    {label: 'ÃÂÃÂ° ÃÂ¿ÃÂÃÂ¾ÃÂ²ÃÂµÃÂÃÂºÃÂµ', value: 'review', severity: 'warning'},
-    {label: 'ÃÂÃÂ¾ÃÂ´ÃÂÃÂ²ÃÂµÃÂÃÂ¶ÃÂ´ÃÂµÃÂ½', value: 'approved', severity: 'info'},
-    {label: 'ÃÂÃÂÃÂ¿ÃÂ»ÃÂ°ÃÂÃÂµÃÂ½ÃÂ¾', value: 'paid', severity: 'success'},
+    {label: 'Отклонен', value: 'rejected', severity: 'danger'},
+    {label: 'На проверке', value: 'review', severity: 'warning'},
+    {label: 'Подтвержден', value: 'approved', severity: 'info'},
+    {label: 'Выплачено', value: 'paid', severity: 'success'},
 ];
 
 const paymentTypes = [
     {label: 'SWIFT', value: 'swift'},
-    {label: 'ÃÂÃÂ°ÃÂÃÂÃÂ', value: 'cards'},
-    {label: 'ÃÂÃÂÃÂ¸ÃÂ¿ÃÂÃÂ¾ÃÂ²ÃÂ°ÃÂ»ÃÂÃÂÃÂ°', value: 'cryptocurrency'},
+    {label: 'Карты', value: 'cards'},
+    {label: 'Криптовалюта', value: 'cryptocurrency'},
 ];
 
 const icons = {
@@ -52,9 +52,6 @@ export const UnlockTable = () => {
         setSortOrder(event.sortOrder);
     };
 
-    const handleDelete = (id) => {
-        dispatch(deleteData({endpoint, id}));
-    };
 
     const onRowEditComplete = (e) => {
         const {newData} = e;
@@ -62,10 +59,10 @@ export const UnlockTable = () => {
     };
 
     const columns = [
-        {field: 'time', header: 'ÃÂÃÂ°ÃÂÃÂ°/ÃÂ²ÃÂÃÂµÃÂ¼ÃÂ', sortable: true, style: {width: '13rem'}},
+        {field: 'time', header: 'Дата/время', sortable: true, style: {width: '13rem'}},
         {
             field: 'amount',
-            header: 'ÃÂ¡ÃÂÃÂ¼ÃÂ¼ÃÂ°',
+            header: 'Сумма',
             body: (rowData) => {
                 return (
                     <div className="flex align-items-center gap-2">
@@ -77,7 +74,7 @@ export const UnlockTable = () => {
         },
         {
             field: 'status',
-            header: 'ÃÂ¡ÃÂÃÂ°ÃÂÃÂÃÂ',
+            header: 'Статус',
             body: (rowData) => <StatusCell rowData={rowData} statuses={statuses}/>,
             sortable: true,
             style: {width: '8rem'}
