@@ -99,7 +99,7 @@ export default function Stats() {
             </div>
             <div className="grid grid-cols-2 gap-4 mb-3 items-end">
                 <div className="col pt-4 lg:text-lg sm:text-sm">
-                    Баланс: <span className="text-green-500">${balance.toFixed(2)}</span>
+                    Баланс: <span className={balance < 0 ? "text-red-500" : "text-green-500"}>${balance.toFixed(2)}</span>
                 </div>
                 <div className="flex-col items-end">
                     <Dropdown
