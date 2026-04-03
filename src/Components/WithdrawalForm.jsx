@@ -36,7 +36,6 @@ const WithdrawalForm = () => {
                     const data = response.data;
                     const val = (data && typeof data === "object" && data.balance !== undefined) ? data.balance : data;
                         if (val !== null && val !== undefined && val !== "") { setBalance(parseFloat(val)); }
-                    }
                     setBalanceLoaded(true);
                 } catch (err) {
                     console.error('Failed to fetch balance:', err);
