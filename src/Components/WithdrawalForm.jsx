@@ -34,8 +34,8 @@ const WithdrawalForm = () => {
                     }
                 });
                     const data = response.data;
-                    if (data && data.balance !== undefined) {
-                        setBalance(parseFloat(data.balance));
+                    const val = (data && typeof data === "object" && data.balance !== undefined) ? data.balance : data;
+                        if (val !== null && val !== undefined && val !== "") { setBalance(parseFloat(val)); }
                     }
                     setBalanceLoaded(true);
                 } catch (err) {
