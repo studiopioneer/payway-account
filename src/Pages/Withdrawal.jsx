@@ -1,13 +1,15 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import {Toast} from 'primereact/toast';
 import {useSelector, useDispatch} from 'react-redux';
 import {clearToast} from '../ToastSlice';
 import WithdrawalTable from "../Components/WithdrawalTable";
 import CreateButton from "../Components/CreateButton";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 export default function Withdrawal() {
     const toast = useRef(null);
+    const [balance, setBalance] = useState(null);
     const dispatch = useDispatch();
     const {message, severity} = useSelector((state) => state.toast); // Подписываемся на состояние toast
 
@@ -28,6 +30,24 @@ export default function Withdrawal() {
         }
     }, [message, severity, dispatch]);
 
+    useEffect(() => {
+        const fetchBalance = async () => {
+            try {
+                const response = await axios.get('/wp-json/payway/v1/user/balance', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+                    }
+                });
+                const data = response.data;
+                const val = (data && typeof data === "object" && data.balance !== undefined) ? data.balance : data;
+                if (val !== null && val !== undefined && val !== "") { setBalance(parseFloat(val)); }
+            } catch (err) {
+                console.error('Failed to fetch balance:', err);
+            }
+        };
+        fetchBalance();
+    }, []);
+
     return (
         <div className="p-5">
             <Toast ref={toast}/>
@@ -46,7 +66,7 @@ export default function Withdrawal() {
                     />
                 </div>
                 <div className="col text-right pt-4 text-lg">
-                    Баланс для вывода: <span className="text-green-500">$350</span>
+                    Баланс для вывода: <span className="text-green-500">{balance !== null ? `$${balance.toFixed(2)}` : "..."}</span>
                 </div>
             </div>
             <WithdrawalTable/>
