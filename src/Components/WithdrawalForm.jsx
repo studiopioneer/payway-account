@@ -8,7 +8,6 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; // ÐÐ¼Ð¿Ð¾ÑÑÐ¸ÑÑÐµÐ¼ useDispatch
 import {showToast} from '../ToastSlice';
-import {apiFetch} from '../assets/Api'; // ÐÐ¼Ð¿Ð¾ÑÑÐ¸ÑÑÐµÐ¼ action
 
 const CRYPTO_COMMISSION_RATE = 11; // ÐÐ¾Ð¼Ð¸ÑÑÐ¸Ñ Ð·Ð° ÐºÑÐ¸Ð¿ÑÐ¾Ð²Ð°Ð»ÑÑÑ Ð² Ð¿ÑÐ¾ÑÐµÐ½ÑÐ°Ñ
 const SWIFT_COMMISSION_RATE = 12; // ÐÐ¾Ð¼Ð¸ÑÑÐ¸Ñ Ð·Ð° Swift Ð² Ð¿ÑÐ¾ÑÐµÐ½ÑÐ°Ñ
@@ -31,7 +30,8 @@ const WithdrawalForm = () => {
                 try {
                     const now = new Date();
                     const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-                    const data = await apiFetch(`/stats/monthly-balance?month=${month}`);
+                    const response = await axios.get('/wp-json/payway/v1/stats/monthly-balance?month=' + month);
+                    const data = response.data;
                     if (data && data.balance !== undefined) {
                         setBalance(parseFloat(data.balance));
                     }
